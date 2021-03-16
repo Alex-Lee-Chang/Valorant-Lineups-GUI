@@ -72,12 +72,13 @@ public class lineup implements Enums, Comparable<lineup>
             this.throwType == lineup.throwType && 
             this.land == lineup.land && 
             this.isFolder == lineup.isFolder && 
-            this.imageID == lineup.imageID; 
+            this.imageID == lineup.imageID &&
+            this.secondThrowType == lineup.secondThrowType;
    }
    
    public String toString() 
    {
-      return agent + " " + map + " " + side + " " + site + " " + projectile + " " + throwType + " " + land + " " + imageID;
+      return agent + " " + map + " " + side + " " + site + " " + projectile + " " + throwType + " " + secondThrowType + " " + land + " " + imageID;
    }
    
    public boolean isFolder() { return isFolder; }
@@ -87,6 +88,7 @@ public class lineup implements Enums, Comparable<lineup>
    public site getSite() { return site; }
    public projectile getProjectile() { return projectile; }
    public throwType getThrowType() { return throwType; }
+   public throwType getSecondThrowType() { return secondThrowType;} 
    public land getLand() { return land; }
    public String getImage() { return imageID; }
    
