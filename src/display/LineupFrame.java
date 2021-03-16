@@ -6,38 +6,71 @@ import javax.swing.border.TitledBorder;
 
 class LineupFrame extends JFrame implements Enums
 {
-   public JPanel ImagePanel;
-   public JPanel ButtonPanel;
-   public JPanel SelectedInfoPanel;
-   public JPanel SpecificInfoPanel;
-   public JPanel InfoPanel;
+   private JPanel imagePanel;
+   private JPanel buttonPanel;
+   private JPanel selectedInfoPanel;
+   private JPanel specificInfoPanel;
+   private JPanel infoPanel;
 
-
+   public JLabel selectedMap, selectedAgent, selectedSide, selectedSite;
+   
+   public JLabel projectile, land, throwType;
+   
+   public JLabel image;
+   private JButton nextImageButton, previousImageButton;
 
    public LineupFrame(String title)
    {
       super(title);
 
-      ImagePanel = new JPanel(new GridLayout(1, 1, 10, 10));
-      ButtonPanel = new JPanel(new GridLayout(1, 9, 10, 10));
-      SelectedInfoPanel = new JPanel(new GridLayout(1, 4, 10, 10));
-      SpecificInfoPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-      InfoPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+      imagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+      buttonPanel = new JPanel(new GridLayout(1, 9, 10, 10));
+      selectedInfoPanel = new JPanel(new GridLayout(1, 4, 10, 10));
+      specificInfoPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+      infoPanel = new JPanel(new GridLayout(2, 1, 10, 10));
       
-      
-      ImagePanel.setBorder(new TitledBorder("Lineup Image"));
-      ButtonPanel.setBorder(new TitledBorder("Select Your Option"));
-      SelectedInfoPanel.setBorder(new TitledBorder("Selected Specifications"));
-      SpecificInfoPanel.setBorder(new TitledBorder("Lineup Details"));
+      imagePanel.setBorder(new TitledBorder("Lineup Image"));
+      buttonPanel.setBorder(new TitledBorder("Select Your Option"));
+      selectedInfoPanel.setBorder(new TitledBorder("Selected Specifications"));
+      specificInfoPanel.setBorder(new TitledBorder("Lineup Details"));
 
       setLayout(new BorderLayout(20, 10));
-      add(SelectedInfoPanel, BorderLayout.NORTH);
-      add(ImagePanel, BorderLayout.CENTER);
-      add(InfoPanel, BorderLayout.SOUTH);
-      InfoPanel.add(SpecificInfoPanel, BorderLayout.NORTH);
-      InfoPanel.add(ButtonPanel, BorderLayout.SOUTH);
+      add(selectedInfoPanel, BorderLayout.NORTH);
+      add(imagePanel, BorderLayout.CENTER);
+      add(infoPanel, BorderLayout.SOUTH);
+      infoPanel.add(specificInfoPanel, BorderLayout.NORTH);
+      infoPanel.add(buttonPanel, BorderLayout.SOUTH);
+      
+      
+      selectedMap = new JLabel("Map: ");
+      selectedAgent = new JLabel("Agent: ");
+      selectedSide = new JLabel("Side: ");
+      selectedSite = new JLabel("Site: ");
+      
+      selectedInfoPanel.add(selectedMap);
+      selectedInfoPanel.add(selectedAgent);
+      selectedInfoPanel.add(selectedSide);
+      selectedInfoPanel.add(selectedSite);
 
-
+      
+      projectile = new JLabel("Projectile: ");
+      land = new JLabel("Lands: ");
+      throwType = new JLabel("Throw Type: ");
+    		  
+      specificInfoPanel.add(projectile);
+      specificInfoPanel.add(land);
+      specificInfoPanel.add(throwType);
+      
+      nextImageButton = new JButton("Next");
+      previousImageButton = new JButton("Previous");
+      nextImageButton.setPreferredSize(new Dimension(100, 40));
+      previousImageButton.setPreferredSize(new Dimension(100, 40));
+      image = new JLabel();
+      
+      imagePanel.add(nextImageButton);
+      imagePanel.add(image);
+      imagePanel.add(previousImageButton);
+      
       setVisible(true);
    }
 }
