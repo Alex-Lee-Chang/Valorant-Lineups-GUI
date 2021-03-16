@@ -70,7 +70,7 @@ public class FileUtility implements Enums
       while(in.hasNextLine()) 
       {
          data = in.nextLine();
-         System.out.println(data);
+         //System.out.println(data);
          lineupQueue.add(stringToLineup(data));
       }
       fileRead = true;
@@ -104,7 +104,18 @@ public class FileUtility implements Enums
       else
          retString += holder;
       
+      if((lineup.getSecondThrowType() == null))
+      {
+    	  retString += "NA";
+      }
+      else 
+      {
+    	  holder = getIndex(throwTypeArray, lineup.getSecondThrowType().name());
+    	  retString += holder;
+      }
+      
       retString += lineup.getImage();
+    	  
       
       try 
       {
@@ -129,6 +140,7 @@ public class FileUtility implements Enums
       projectile projectile;
       land land;
       throwType throwType;
+      throwType secondThrowType;
       String imageID;
       
       String temp;
@@ -160,10 +172,22 @@ public class FileUtility implements Enums
       index = Integer.parseInt(temp);
       throwType = Enums.throwType.values()[index];
       
-      imageID = inString.substring(9);
+      temp = inString.substring(9, 11);
+      if(temp.equals("NA")) 
+      {
+    	  secondThrowType = null;
+      }  
+      else 
+      {
+    	  index = Integer.parseInt(temp);
+          secondThrowType = Enums.throwType.values()[index];
+      }
       
       
-      return new lineup(agent, map, side, site, projectile, throwType, land, imageID);
+      imageID = inString.substring(11);
+      
+      
+      return new lineup(agent, map, side, site, projectile, throwType, secondThrowType, land, imageID);
    }
    
    private String getIndex(String[] array, String string) 
