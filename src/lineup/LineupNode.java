@@ -25,7 +25,9 @@ public class LineupNode implements Enums
    
    public lineup getData() { return data; }
    public LineupNode getSib() { return sib; }
-   public LineupNode getprev() { return prev; }
+   public LineupNode getPrev() { return prev; }
    public LineupNode getChild() { return child; }
    public LineupNode getTopRoot() { return topRoot; }
+   
+   public void setPrev(LineupNode node) { prev = node; }
 }

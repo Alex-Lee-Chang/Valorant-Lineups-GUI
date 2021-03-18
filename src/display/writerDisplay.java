@@ -6,7 +6,7 @@ import javax.swing.border.TitledBorder;
 
 class writerDisplay extends JFrame implements Enums
 {
-   public JPanel buttonPanel;
+   private JPanel buttonPanel;
 
 
 
