@@ -3,10 +3,19 @@ package display;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import lineup.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
+import java.awt.event.ComponentAdapter;
 
 class LineupFrame extends JFrame implements Enums
 {
@@ -26,9 +35,13 @@ class LineupFrame extends JFrame implements Enums
    private Enums.side side;
    private Enums.site site;
 
+   private static final double maxWidth = 1280;
+   private static final double maxHeight = 720;
+   private double prevHeight, prevWidth;
+
    private LineupTree[] lineupTrees = new LineupTree[9];
    private LineupNode currentLineup;
-   
+
    private JPanel imagePanel;
    private JPanel buttonPanel;
    private JPanel selectedInfoPanel;
@@ -108,6 +121,11 @@ class LineupFrame extends JFrame implements Enums
       backSelectButton = new JButton("Back");
       backSelectButton.addActionListener(listener);
 
+      addComponentListener(new FrameListen());
+      Rectangle size = getBounds();
+      prevHeight = size.height;
+      prevWidth = size.width;
+
       currentPhase = phase.AGENT;
       initTrees();
       initButtons();
@@ -153,7 +171,7 @@ class LineupFrame extends JFrame implements Enums
          showSiteButtons();
          break;
       case DONE:
-         if(currentLineup == null) 
+         if (currentLineup == null)
          {
             int index = getIndex(agentArray, agent.toString());
             lineup lineup = new lineup(agent, map, side, site);
@@ -161,14 +179,14 @@ class LineupFrame extends JFrame implements Enums
          }
          updateSelectedText();
          showLineup();
-         
+
          break;
       default:
          break;
       }
    }
 
-   private void updateSelectedText() 
+   private void updateSelectedText()
    {
       projectile.setText("Projectile: ");
       land.setText("Lands: ");
@@ -177,29 +195,29 @@ class LineupFrame extends JFrame implements Enums
       image.revalidate();
       image.repaint();
       image.setIcon(new ImageIcon());
-      
-      if(agent == null)
+
+      if (agent == null)
          selectedAgent.setText("Agent: ");
       else
          selectedAgent.setText("Agent: " + agent.toString());
-      
-      if(map == null)
+
+      if (map == null)
          selectedMap.setText("Map: ");
       else
          selectedMap.setText("Map: " + map.toString());
-      
-      if(side == null)
+
+      if (side == null)
          selectedSide.setText("Side: ");
       else
          selectedSide.setText("Side: " + side.toString());
-      
-      if(site == null)
+
+      if (site == null)
          selectedSite.setText("Site: ");
       else
          selectedSite.setText("Site: " + site.toString());
 
    }
-   
+
    private void initButtons()
    {
       agentButtonListener listener = new agentButtonListener();
@@ -233,13 +251,13 @@ class LineupFrame extends JFrame implements Enums
       iceboxB.addActionListener(mapListener);
       splitB = new JButton("Split");
       splitB.addActionListener(mapListener);
-      
+
       sideButtonListener sideListener = new sideButtonListener();
       attackB = new JButton("Attack");
       attackB.addActionListener(sideListener);
       defendB = new JButton("Defence");
       defendB.addActionListener(sideListener);
-      
+
       siteButtonListener siteListener = new siteButtonListener();
       aB = new JButton("A");
       aB.addActionListener(siteListener);
@@ -251,15 +269,16 @@ class LineupFrame extends JFrame implements Enums
       midB.addActionListener(siteListener);
       garageB = new JButton("Garage");
       garageB.addActionListener(siteListener);
-      
+
    }
 
-   private void clearButtonPanel() 
+   private void clearButtonPanel()
    {
       buttonPanel.removeAll();
       buttonPanel.revalidate();
       buttonPanel.repaint();
    }
+
    private void showAgentButtons()
    {
       clearButtonPanel();
@@ -285,59 +304,94 @@ class LineupFrame extends JFrame implements Enums
       buttonPanel.add(splitB);
       buttonPanel.add(backSelectButton);
    }
-   
-   private void showSideButtons() 
+
+   private void showSideButtons()
    {
       clearButtonPanel();
       buttonPanel.add(attackB);
       buttonPanel.add(defendB);
       buttonPanel.add(backSelectButton);
    }
-   
-   private void showSiteButtons() 
+
+   private void showSiteButtons()
    {
       clearButtonPanel();
       buttonPanel.add(aB);
       buttonPanel.add(bB);
-      
-      if(map == null)
+
+      if (map == null)
          return;
-      
-      if(map != Enums.map.BIND)
+
+      if (map != Enums.map.BIND)
          buttonPanel.add(midB);
-      
-      if(map == Enums.map.HAVEN) 
+
+      if (map == Enums.map.HAVEN)
       {
          buttonPanel.add(cB);
          buttonPanel.add(garageB);
       }
-      
+
       buttonPanel.add(backSelectButton);
    }
-   
-   private void showLineup() 
+
+   private void showLineup()
    {
-      if(currentLineup == null) 
+      if (currentLineup == null)
       {
          image.setText("No Lineups Found");
          return;
       }
-      
+
       image.setText("");
       projectile.setText("Projectile: " + currentLineup.getData().getProjectile());
       land.setText("Lands: " + currentLineup.getData().getLand());
-      if(currentLineup.getData().getSecondThrowType() == null)
+      if (currentLineup.getData().getSecondThrowType() == null)
          throwType.setText("Throw Type: " + currentLineup.getData().getThrowType());
       else
-         throwType.setText("Throw Type: " + currentLineup.getData().getThrowType() + " then " + currentLineup.getData().getSecondThrowType());
-      
+         throwType.setText("Throw Type: " + currentLineup.getData().getThrowType() + " then "
+               + currentLineup.getData().getSecondThrowType());
+
+      showImage();
+
+   }
+
+   private void showImage()
+   {
+      if (currentLineup == null)
+         return;
+
       String imageName = "images/";
       imageName += agent.toString().toLowerCase() + "/";
       imageName += currentLineup.getData().getImage();
-      
-      image.setIcon(new ImageIcon(imageName));
-   }
 
+      BufferedImage buffImg = null;
+      try
+      {
+         buffImg = ImageIO.read(new File(imageName));
+      } catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+      Rectangle size = getBounds();
+      double heightScale, widthScale, height, width;
+      heightScale = (size.height - 375) / maxHeight;
+      widthScale = (size.width - 20) / maxWidth;
+      if (heightScale > widthScale)
+      {
+         height = maxHeight * widthScale;
+         width = maxWidth * widthScale;
+      } else
+      {
+         height = maxHeight * heightScale;
+         width = maxWidth * heightScale;
+
+      }
+
+      // System.out.println(height + " " + width + " " + heightScale + " " +
+      // widthScale + " " + size.height + " " + size.width);
+      Image scaledImg = buffImg.getScaledInstance((int) width, (int) height, Image.SCALE_SMOOTH);
+      image.setIcon(new ImageIcon(scaledImg));
+   }
 
    class backButtonListener implements ActionListener
    {
@@ -350,7 +404,7 @@ class LineupFrame extends JFrame implements Enums
          {
             if (phase.values()[i] == currentPhase)
             {
-               if(i == 4)
+               if (i == 4)
                   currentPhase = phase.values()[i - 2];
                else
                   currentPhase = phase.values()[i - 1];
@@ -385,25 +439,25 @@ class LineupFrame extends JFrame implements Enums
          update();
       }
    }
-   
+
    class sideButtonListener implements ActionListener
    {
-      public void actionPerformed(ActionEvent e) 
+      public void actionPerformed(ActionEvent e)
       {
          JButton button = (JButton) e.getSource();
-         if(button == attackB) 
+         if (button == attackB)
             side = Enums.side.ATTACK;
          else
             side = Enums.side.DEFEND;
          currentPhase = phase.SITE;
          update();
-            
+
       }
    }
-   
+
    class siteButtonListener implements ActionListener
    {
-      public void actionPerformed(ActionEvent e) 
+      public void actionPerformed(ActionEvent e)
       {
          JButton button = (JButton) e.getSource();
          String siteName = button.getText();
@@ -414,39 +468,55 @@ class LineupFrame extends JFrame implements Enums
          update();
       }
    }
-   
+
    class prevNextListener implements ActionListener
    {
-      public void actionPerformed(ActionEvent e) 
+      public void actionPerformed(ActionEvent e)
       {
          JButton button = (JButton) e.getSource();
          LineupNode temp;
-         
-         if(currentLineup == null || currentPhase != phase.DONE)
+
+         if (currentLineup == null || currentPhase != phase.DONE)
             return;
-         
-         if(button == previousImageButton) 
+
+         if (button == previousImageButton)
          {
-            if(currentLineup.getPrev().getSib() == currentLineup) 
+            if (currentLineup.getPrev().getSib() == currentLineup)
                currentLineup = currentLineup.getPrev();
-               
-         }
-         else if(button == nextImageButton) 
+
+         } else if (button == nextImageButton)
          {
-            if((temp = currentLineup.getSib()) != null)
+            if ((temp = currentLineup.getSib()) != null)
                currentLineup = temp;
          }
          update();
       }
    }
-   
-   
-   private void initTrees() 
+
+   private class FrameListen implements ComponentListener
    {
-      if(treesSet)
+      public void componentHidden(ComponentEvent event){}
+      public void componentMoved(ComponentEvent event){}
+      public void componentShown(ComponentEvent event){}
+      public void componentResized(ComponentEvent event)
+      {
+         Rectangle size = getBounds();
+         if(Math.abs(prevHeight - size.height) > 30 || Math.abs(prevWidth - size.width) > 30) 
+         {
+            prevHeight = size.height;
+            prevWidth = size.width;
+            showImage();
+         }
+      }
+
+   }
+
+   private void initTrees()
+   {
+      if (treesSet)
          return;
-      
-      for(int i = 0; i < lineupTrees.length; ++i) 
+
+      for (int i = 0; i < lineupTrees.length; ++i)
       {
          lineupTrees[i] = new LineupTree(Enums.agent.values()[i]);
          lineupTrees[i].init();
@@ -454,7 +524,7 @@ class LineupFrame extends JFrame implements Enums
       }
       treesSet = true;
    }
-   
+
    private void setArrays()
    {
       if (arraysSet)

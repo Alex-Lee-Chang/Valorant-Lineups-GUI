@@ -12,7 +12,7 @@ public class main
    public static void main(String[] args)
    {
       LineupFrame LineupFrame = new LineupFrame("Lineup App");
-      LineupFrame.setSize(1024, 1024);
+      LineupFrame.setSize(1024, 940);
       LineupFrame.setLocationRelativeTo(null);
       LineupFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       LineupFrame.setVisible(true);
