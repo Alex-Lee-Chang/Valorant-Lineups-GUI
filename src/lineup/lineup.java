@@ -1,6 +1,6 @@
 package lineup;
 
-public class lineup implements Enums, Comparable<lineup>
+public class Lineup implements Enums, Comparable<Lineup>
 {
    private boolean isFolder;
    
@@ -15,17 +15,17 @@ public class lineup implements Enums, Comparable<lineup>
    private throwType secondThrowType;
    private land land;
    
-   public lineup (agent agent, map map, side side, site site) 
+   public Lineup (agent agent, map map, side side, site site) 
    {
       set(agent, map, side, site);
    }
    
-   public lineup (agent agent, map map, side side, site site, projectile projectile, throwType throwType, land land, String imageID) 
+   public Lineup (agent agent, map map, side side, site site, projectile projectile, throwType throwType, land land, String imageID) 
    {
       set(agent, map, side, site, projectile, throwType, land, imageID);
    }
    
-   public lineup (agent agent, map map, side side, site site, projectile projectile, throwType throwType, throwType secondThrowType, land land, String imageID) 
+   public Lineup (agent agent, map map, side side, site site, projectile projectile, throwType throwType, throwType secondThrowType, land land, String imageID) 
    {
       set(agent, map, side, site, projectile, throwType, land, imageID);
       this.secondThrowType = secondThrowType;
@@ -51,7 +51,7 @@ public class lineup implements Enums, Comparable<lineup>
       this.secondThrowType = null;
    }
    
-   public int compareTo (lineup lineup) 
+   public int compareTo (Lineup lineup) 
    {
       if(this.projectile.compareTo(lineup.projectile) != 0) 
       {
@@ -60,7 +60,7 @@ public class lineup implements Enums, Comparable<lineup>
       return this.land.compareTo(lineup.land);
    }
    
-   public boolean equals(lineup lineup) 
+   public boolean equals(Lineup lineup) 
    {
       if(lineup == null)
          return false;

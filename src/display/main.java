@@ -11,26 +11,17 @@ public class main
 
    public static void main(String[] args)
    {
-      LineupFrame LineupFrame = new LineupFrame("Lineup App");
-      LineupFrame.setSize(1024, 940);
-      LineupFrame.setLocationRelativeTo(null);
-      LineupFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      LineupFrame.setVisible(true);
+      LineupFrame lineupFrame = new LineupFrame("Lineup App");
+      lineupFrame.setSize(1024, 940);
+      lineupFrame.setLocationRelativeTo(null);
+      lineupFrame.setDefaultCloseOperation(LineupFrame.DISPOSE_ON_CLOSE);
+      lineupFrame.setVisible(true);
 
-      
-      
-      /*LineupTree viperTree = new LineupTree(Enums.agent.VIPER);
-      viperTree.init();
-      viperTree.populateFolders();
-      viperTree.display();*/
-      
-      /*lineup writeLineup = new lineup(Enums.agent.VIPER, Enums.map.ASCENT, Enums.side.ATTACK, Enums.site.A, Enums.projectile.MOLLY, Enums.throwType.THROW, Enums.land.DEFAULT, "viper2");
-      lineup write2Lineup = new lineup(Enums.agent.VIPER, Enums.map.ASCENT, Enums.side.ATTACK, Enums.site.A, Enums.projectile.MOLLY, Enums.throwType.THROW, Enums.land.GREEN_BOX, "viper1");
-      lineup write3Lineup = new lineup(Enums.agent.VIPER, Enums.map.ASCENT, Enums.side.DEFEND, Enums.site.B, Enums.projectile.MOLLY, Enums.throwType.THROW, Enums.land.DEFAULT, "viper3");
-      FileUtility fileUtil = new FileUtility(Enums.agent.VIPER);
-      fileUtil.writeLineup(writeLineup);
-      fileUtil.writeLineup(write2Lineup);
-      fileUtil.writeLineup(write3Lineup);*/
+      WriterFrame writerFrame = new WriterFrame("Lineup Writer");
+      writerFrame.setSize(1024, 940);
+      writerFrame.setLocationRelativeTo(null);
+      writerFrame.setDefaultCloseOperation(WriterFrame.DISPOSE_ON_CLOSE);
+      writerFrame.setVisible(true);
       
       
    }

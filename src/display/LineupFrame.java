@@ -173,8 +173,8 @@ class LineupFrame extends JFrame implements Enums
       case DONE:
          if (currentLineup == null)
          {
-            int index = getIndex(agentArray, agent.toString());
-            lineup lineup = new lineup(agent, map, side, site);
+            int index = getIndex(agentArray, agent.name());
+            Lineup lineup = new Lineup(agent, map, side, site);
             currentLineup = lineupTrees[index].find(lineup).getChild();
          }
          updateSelectedText();
@@ -361,7 +361,7 @@ class LineupFrame extends JFrame implements Enums
          return;
 
       String imageName = "images/";
-      imageName += agent.toString().toLowerCase() + "/";
+      imageName += agent.name().toLowerCase() + "/";
       imageName += currentLineup.getData().getImage();
 
       BufferedImage buffImg = null;

@@ -5,12 +5,84 @@ public interface Enums
    enum map {ASCENT, BIND, HAVEN, ICEBOX, SPLIT}
    enum side {ATTACK, DEFEND}
    enum site {A, B, C, MID, GARAGE}
-   enum projectile {MOLLY, SHOCK_DART, RECON_DART, SMOKE, SLOW, TELEPORT, GRENADE}
-   enum throwType {JUMP_THROW, THROW, 
-      TAP_NO_BOUNCE, TAP_ONE_BOUNCE, TAP_TWO_BOUNCE, 
-      ONE_NO_BOUNCE, ONE_ONE_BOUNCE, ONE_TWO_BOUNCE, 
-      TWO_NO_BOUNCE, TWO_ONE_BOUNCE, TWO_TWO_BOUNCE, 
-      FULL_NO_BOUNCE, FULL_ONE_BOUNCE, FULL_TWO_BOUNCE, 
-      TAP_NO_BOUNCE_JUMP, ONE_NO_BOUNCE_JUMP}
-   enum land {DEFAULT, SECOND_DEFAULT, BACK_SITE, HEAVEN, SHORT, LONG, GREEN_BOX} //TODO 
+   enum projectile
+   {
+      MOLLY, SHOCK_DART, RECON_DART, SMOKE, SLOW, TELEPORT, GRENADE;
+
+      public String toString()
+      {
+         if(this.name().contains("_")) 
+         {
+            return this.name().replace('_', ' ');
+         }
+         return this.name();
+      }
+   }
+   enum throwType
+   {
+      JUMP_THROW, THROW, TAP_NO, TAP_ONE_, TAP_TWO, ONE_NO, ONE_ONE, ONE_TWO, TWO_NO, TWO_ONE, TWO_TWO, FULL_NO, FULL_ONE, FULL_TWO, TAP_NO_JUMP, ONE_NO_JUMP;
+
+      public String toString()
+      {
+         switch (this)
+         {
+         case JUMP_THROW:
+            return "JUMP THROW";
+         case THROW:
+            return this.name();
+         }
+         
+         String name = this.name();
+         String retString = "";
+         
+         switch(name.substring(0, 3)) 
+         {
+         case "TAP": 
+            retString += "TAP";
+            break;
+         case "ONE":
+            retString += "ONE BAR";
+            break;
+         case "TWO":
+            retString += "TWO BARS";
+            break;
+         case "FUL":
+            retString += "FULL CHARGE";
+            break;
+         }
+         
+         int index = name.indexOf("_");
+         switch(name.substring(index+1)) 
+         {
+         case "NO":
+            retString += " WITH NO BOUNCES";
+            break;
+         case "ONE":
+            retString += " WITH ONE BOUNCE";
+            break;
+         case "TWO":
+            retString += " WITH TWO BOUNCES";
+            break;
+         case "NO_JUMP":
+            retString += " WITH NO BOUNCES AND A JUMP"; //TODO
+            break;
+         }
+         return retString;
+         
+      }
+   }
+
+   enum land
+   {
+      DEFAULT, SECOND_DEFAULT, BACK_SITE, HEAVEN, SHORT, LONG, GREEN_BOX;
+
+      public String toString()
+      {
+         if(this.name().contains("_")) 
+         {
+            return this.name().replace('_', ' ');
+         }
+         return this.name();
+      }
+   } // TODO
 }

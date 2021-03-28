@@ -7,7 +7,7 @@ public class LineupTree implements Enums
    private agent agent;
    private LineupNode root;
    private FileUtility fileUtil;
-   private PriorityQueue<lineup> lineupQueue;
+   private PriorityQueue<Lineup> lineupQueue;
 
    public LineupTree(agent agent)
    {
@@ -21,14 +21,14 @@ public class LineupTree implements Enums
       map map;
       LineupNode root;
       
-      lineup lineup = new lineup(agent, null, null, null);
+      Lineup lineup = new Lineup(agent, null, null, null);
       addChild(null, lineup);
       this.root = find(lineup);
 
       for (int i = 0; i < 5; ++i)
       {
          map = Enums.map.values()[i];
-         lineup = new lineup(agent, map, null, null);
+         lineup = new Lineup(agent, map, null, null);
          root = addChild(this.root, lineup);
          createMapFolders(agent, map, root);
       }
@@ -48,21 +48,21 @@ public class LineupTree implements Enums
 
    private void createMapFolders(agent agent, map map, LineupNode root)//there's probably a better way
    {
-      LineupNode rootA = addChild(root, new lineup(agent, map, Enums.side.ATTACK, null));
-      LineupNode rootD = addChild(root, new lineup(agent, map, Enums.side.DEFEND, null));
+      LineupNode rootA = addChild(root, new Lineup(agent, map, Enums.side.ATTACK, null));
+      LineupNode rootD = addChild(root, new Lineup(agent, map, Enums.side.DEFEND, null));
       
-      addChild(rootA, new lineup(agent, map, Enums.side.ATTACK, Enums.site.A));
-      addChild(rootD, new lineup(agent, map, Enums.side.DEFEND, Enums.site.A));
+      addChild(rootA, new Lineup(agent, map, Enums.side.ATTACK, Enums.site.A));
+      addChild(rootD, new Lineup(agent, map, Enums.side.DEFEND, Enums.site.A));
       
-      addChild(rootA, new lineup(agent, map, Enums.side.ATTACK, Enums.site.B));
-      addChild(rootD, new lineup(agent, map, Enums.side.DEFEND, Enums.site.B));
+      addChild(rootA, new Lineup(agent, map, Enums.side.ATTACK, Enums.site.B));
+      addChild(rootD, new Lineup(agent, map, Enums.side.DEFEND, Enums.site.B));
       
       if(map == Enums.map.HAVEN) 
       {
-         addChild(rootA, new lineup(agent, map, Enums.side.ATTACK, Enums.site.C));
-         addChild(rootD, new lineup(agent, map, Enums.side.DEFEND, Enums.site.C));
-         addChild(rootA, new lineup(agent, map, Enums.side.ATTACK, Enums.site.GARAGE));
-         addChild(rootD, new lineup(agent, map, Enums.side.DEFEND, Enums.site.GARAGE));
+         addChild(rootA, new Lineup(agent, map, Enums.side.ATTACK, Enums.site.C));
+         addChild(rootD, new Lineup(agent, map, Enums.side.DEFEND, Enums.site.C));
+         addChild(rootA, new Lineup(agent, map, Enums.side.ATTACK, Enums.site.GARAGE));
+         addChild(rootD, new Lineup(agent, map, Enums.side.DEFEND, Enums.site.GARAGE));
       }
       
       if(map == Enums.map.BIND) 
@@ -70,18 +70,18 @@ public class LineupTree implements Enums
          return;
       }
       
-      addChild(rootA, new lineup(agent, map, Enums.side.ATTACK, Enums.site.MID));
-      addChild(rootD, new lineup(agent, map, Enums.side.DEFEND, Enums.site.MID));
+      addChild(rootA, new Lineup(agent, map, Enums.side.ATTACK, Enums.site.MID));
+      addChild(rootD, new Lineup(agent, map, Enums.side.DEFEND, Enums.site.MID));
       
       
    }
 
-   public LineupNode find(lineup x)
+   public LineupNode find(Lineup x)
    {
       return find(root, x, 0);
    }
 
-   public LineupNode find(LineupNode root, lineup x, int level)
+   public LineupNode find(LineupNode root, Lineup x, int level)
    {
       LineupNode retval;
 
@@ -96,19 +96,19 @@ public class LineupTree implements Enums
       return find(root.child, x, level + 1);
    }
 
-   public void addQueue(PriorityQueue<lineup> lineupQueue)
+   public void addQueue(PriorityQueue<Lineup> lineupQueue)
    {
-      lineup lineupIn;
+      Lineup lineupIn;
       LineupNode root;
       while(!lineupQueue.isEmpty()) 
       {
          lineupIn = lineupQueue.remove();
-         root = find(new lineup(lineupIn.getAgent(), lineupIn.getMap(), lineupIn.getSide(), lineupIn.getSite()));
+         root = find(new Lineup(lineupIn.getAgent(), lineupIn.getMap(), lineupIn.getSide(), lineupIn.getSite()));
          addChild(root, lineupIn);
       }
    }
 
-   public LineupNode addChild(LineupNode treeNode, lineup x)
+   public LineupNode addChild(LineupNode treeNode, Lineup x)
    {
       if (size == 0)
       {
@@ -133,12 +133,12 @@ public class LineupTree implements Enums
       return newNode;
    }
 
-   public void remove(lineup x)
+   public void remove(Lineup x)
    {
       remove(root, x);
    }
 
-   public boolean remove(LineupNode root, lineup x)
+   public boolean remove(LineupNode root, Lineup x)
    {
       LineupNode node = null;
 
@@ -179,7 +179,7 @@ public class LineupTree implements Enums
          nodeToDelete.sib.prev = nodeToDelete.prev;
    }
 
-   public <E extends traverser<lineup>> void traverse(E func, LineupNode treeNode, int level)
+   public <E extends Traverser<Lineup>> void traverse(E func, LineupNode treeNode, int level)
    {
       if (treeNode == null)
          return;

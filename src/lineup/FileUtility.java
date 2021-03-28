@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class FileUtility implements Enums
 {
-   private PriorityQueue<lineup> lineupQueue;
+   private PriorityQueue<Lineup> lineupQueue;
    private static String[] projectileArray = new String[projectile.values().length];
    private static String[] landArray = new String[land.values().length];
    private static String[] throwTypeArray = new String[throwType.values().length];
@@ -49,7 +49,7 @@ public class FileUtility implements Enums
       arraysSet = true;
    }
    
-   public PriorityQueue<lineup> readFile()
+   public PriorityQueue<Lineup> readFile()
    {
       if(fileRead)
          return lineupQueue;
@@ -65,7 +65,7 @@ public class FileUtility implements Enums
       }
       
       String data;
-      lineupQueue = new PriorityQueue<lineup>(new lineupComparator());
+      lineupQueue = new PriorityQueue<Lineup>(new LineupComparator());
       
       while(in.hasNextLine()) 
       {
@@ -77,7 +77,7 @@ public class FileUtility implements Enums
       return lineupQueue;
    }
    
-   public void writeLineup(lineup lineup) 
+   public void writeLineup(Lineup lineup) 
    {
       if(lineup == null || lineup.isFolder())
          return;
@@ -132,7 +132,7 @@ public class FileUtility implements Enums
       
    }
    
-   private lineup stringToLineup(String inString) 
+   private Lineup stringToLineup(String inString) 
    {
       map map;
       side side;
@@ -187,7 +187,7 @@ public class FileUtility implements Enums
       imageID = inString.substring(11);
       
       
-      return new lineup(agent, map, side, site, projectile, throwType, secondThrowType, land, imageID);
+      return new Lineup(agent, map, side, site, projectile, throwType, secondThrowType, land, imageID);
    }
    
    private String getIndex(String[] array, String string) 
@@ -206,6 +206,6 @@ public class FileUtility implements Enums
       return null;
    }
    
-   public PriorityQueue<lineup> getQueue(){ return lineupQueue; }
+   public PriorityQueue<Lineup> getQueue(){ return lineupQueue; }
    
 }

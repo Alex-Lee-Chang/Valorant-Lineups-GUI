@@ -3,13 +3,13 @@ public class LineupNode implements Enums
 {
    protected LineupNode sib, prev, child, topRoot;
    
-   protected lineup data;
+   protected Lineup data;
    
    public LineupNode() 
    {
       this(null, null, null, null);
    }
-   public LineupNode(lineup data, LineupNode sib, LineupNode child, LineupNode prev) 
+   public LineupNode(Lineup data, LineupNode sib, LineupNode child, LineupNode prev) 
    {
       this.data = data;
       this.sib = sib;
@@ -17,13 +17,13 @@ public class LineupNode implements Enums
       this.prev = prev;
       this.topRoot = null;
    }
-   protected LineupNode(lineup data, LineupNode sib, LineupNode child, LineupNode prev, LineupNode topRoot) 
+   protected LineupNode(Lineup data, LineupNode sib, LineupNode child, LineupNode prev, LineupNode topRoot) 
    {
       this(data, sib, child, prev);
       this.topRoot = topRoot;
    }
    
-   public lineup getData() { return data; }
+   public Lineup getData() { return data; }
    public LineupNode getSib() { return sib; }
    public LineupNode getPrev() { return prev; }
    public LineupNode getChild() { return child; }

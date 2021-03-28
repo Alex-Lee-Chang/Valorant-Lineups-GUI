@@ -1,5 +1,5 @@
 package lineup;
-interface traverser<E>
+interface Traverser<E>
 {
    public void visitStep(E e);
 }
