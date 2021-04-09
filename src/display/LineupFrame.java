@@ -19,9 +19,9 @@ import java.awt.event.ComponentAdapter;
 
 class LineupFrame extends JFrame implements Enums
 {
-   private enum phase
+   enum phase
    {
-      AGENT, MAP, SIDE, SITE, DONE
+      AGENT, MAP, SIDE, SITE, PROJECTILE, THROW_TYPE, LANDS, IMAGE, DONE
    };
 
    private static String[] agentArray = new String[Enums.agent.values().length];
@@ -179,9 +179,9 @@ class LineupFrame extends JFrame implements Enums
          }
          updateSelectedText();
          showLineup();
-
          break;
       default:
+         System.out.println("Error, Lineup Frame surpased site phase but is not at done");
          break;
       }
    }
@@ -404,8 +404,8 @@ class LineupFrame extends JFrame implements Enums
          {
             if (phase.values()[i] == currentPhase)
             {
-               if (i == 4)
-                  currentPhase = phase.values()[i - 2];
+               if (phase.values()[i] == phase.DONE)
+                  currentPhase = phase.SIDE;
                else
                   currentPhase = phase.values()[i - 1];
             }

@@ -7,7 +7,7 @@ public interface Enums
    enum site {A, B, C, MID, GARAGE}
    enum projectile
    {
-      MOLLY, SHOCK_DART, RECON_DART, SMOKE, SLOW, TELEPORT, GRENADE;
+      MOLLY, SHOCK_DART, RECON_DART, SMOKE, ONE_WAY, SLOW, TELEPORT, GRENADE;
 
       public String toString()
       {
@@ -74,7 +74,7 @@ public interface Enums
 
    enum land
    {
-      DEFAULT, SECOND_DEFAULT, BACK_SITE, HEAVEN, SHORT, LONG, GREEN_BOX;
+      DEFAULT, SECOND_DEFAULT, BACK_SITE, HEAVEN, SHORT, LONG, GREEN_BOX, SIDE_GENERATOR;
 
       public String toString()
       {
